@@ -1,0 +1,751 @@
+/* =========================================
+   MEDICINE FINDER
+   MAIN STYLESHEET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #172033;
+    background: #ffffff;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+    min-height: 76px;
+}
+
+.navbar-brand {
+    font-size: 1.35rem;
+    color: #172033 !important;
+}
+
+.navbar-brand span:last-child {
+    color: #3b82f6;
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-right: 7px;
+    border-radius: 11px;
+    background: #eaf3ff;
+    color: #3b82f6;
+}
+
+.nav-link {
+    color: #596579 !important;
+    font-weight: 500;
+    margin: 0 5px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #3b82f6 !important;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero-section {
+    padding: 90px 0 100px;
+    background:
+        radial-gradient(circle at 90% 20%, #eaf4ff 0, transparent 30%),
+        linear-gradient(135deg, #f7fbff 0%, #ffffff 65%);
+    overflow: hidden;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    background: #eaf3ff;
+    color: #2874d0;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.hero-section h1 {
+    font-size: clamp(42px, 5vw, 68px);
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -2px;
+    max-width: 650px;
+}
+
+.hero-section h1 span {
+    display: block;
+    color: #3b82f6;
+}
+
+.hero-text {
+    max-width: 600px;
+    color: #667085;
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 25px 0;
+}
+
+
+/* =========================================
+   SEARCH BOX
+========================================= */
+
+.hero-search {
+    display: flex;
+    align-items: center;
+    max-width: 620px;
+    min-height: 66px;
+    padding: 7px;
+    background: #ffffff;
+    border: 1px solid #e1e7ef;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(30, 70, 120, 0.09);
+}
+
+.search-icon {
+    width: 48px;
+    text-align: center;
+    color: #3b82f6;
+    font-size: 21px;
+}
+
+.hero-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    min-width: 0;
+    color: #172033;
+}
+
+.hero-search input::placeholder {
+    color: #9aa5b5;
+}
+
+.hero-search button {
+    border: none;
+    background: #3b82f6;
+    color: white;
+    padding: 15px 27px;
+    border-radius: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.hero-search button:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.search-hint {
+    display: block;
+    color: #8a94a5;
+    margin: 10px 0 0 10px;
+}
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.quick-actions {
+    display: flex;
+    gap: 25px;
+    margin-top: 22px;
+}
+
+.quick-actions a {
+    color: #526174;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.quick-actions i {
+    color: #3b82f6;
+    margin-right: 6px;
+}
+
+
+/* =========================================
+   HERO VISUAL
+========================================= */
+
+.hero-visual {
+    position: relative;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.medicine-circle {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #eaf4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 25px 70px rgba(59, 130, 246, 0.12);
+}
+
+.cross-symbol {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background: #ffffff;
+    color: #3b82f6;
+    border-radius: 28px;
+    font-size: 70px;
+    line-height: 82px;
+    text-align: center;
+    font-weight: 300;
+    box-shadow: 0 15px 35px rgba(30, 70, 120, 0.12);
+}
+
+.capsule-icon {
+    font-size: 115px;
+    color: #3b82f6;
+    opacity: 0.13;
+    transform: rotate(-25deg);
+}
+
+.floating-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(20, 50, 90, 0.12);
+    z-index: 2;
+}
+
+.floating-card strong {
+    display: block;
+    font-size: 14px;
+}
+
+.floating-card small {
+    color: #8a94a5;
+    font-size: 11px;
+}
+
+.card-one {
+    top: 70px;
+    left: 10px;
+}
+
+.card-two {
+    right: 0;
+    top: 170px;
+}
+
+.card-three {
+    left: 40px;
+    bottom: 45px;
+}
+
+.mini-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+.mini-icon.green {
+    background: #e8f8ef;
+    color: #20a05a;
+}
+
+.mini-icon.blue {
+    background: #eaf3ff;
+    color: #3b82f6;
+}
+
+.mini-icon.purple {
+    background: #f1edff;
+    color: #7655d9;
+}
+
+
+/* =========================================
+   QUICK FEATURE SECTION
+========================================= */
+
+.quick-feature-section {
+    padding: 35px 0;
+    background: #ffffff;
+}
+
+.feature-mini {
+    display: flex;
+    gap: 17px;
+    padding: 20px;
+    height: 100%;
+    border: 1px solid #e9edf3;
+    border-radius: 18px;
+    transition: 0.3s;
+}
+
+.feature-mini:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(30, 60, 100, 0.07);
+}
+
+.feature-mini-icon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #eaf3ff;
+    color: #3b82f6;
+    font-size: 21px;
+}
+
+.feature-mini h5 {
+    margin: 2px 0 7px;
+    font-size: 16px;
+}
+
+.feature-mini p {
+    margin: 0;
+    color: #7b8798;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.features-section {
+    padding: 100px 0;
+    background: #f8fbff;
+}
+
+.section-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 55px;
+}
+
+.section-heading span {
+    color: #3b82f6;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    font-size: 40px;
+    font-weight: 800;
+    margin: 12px 0;
+}
+
+.section-heading h2 strong {
+    color: #3b82f6;
+}
+
+.section-heading p {
+    color: #7b8798;
+}
+
+
+/* =========================================
+   FEATURE CARDS
+========================================= */
+
+.feature-card {
+    height: 100%;
+    padding: 32px;
+    background: #ffffff;
+    border: 1px solid #e9edf3;
+    border-radius: 22px;
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 20px 45px rgba(30, 60, 100, 0.09);
+}
+
+.feature-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 17px;
+    background: #eaf3ff;
+    color: #3b82f6;
+    font-size: 25px;
+    margin-bottom: 22px;
+}
+
+.feature-card h4 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: #7b8798;
+    line-height: 1.7;
+    font-size: 14px;
+    min-height: 95px;
+}
+
+.feature-card a {
+    color: #3b82f6;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.feature-card a i {
+    margin-left: 5px;
+}
+
+.emergency-card .feature-icon {
+    background: #fff0f1;
+    color: #e5484d;
+}
+
+
+/* =========================================
+   HOW IT WORKS
+========================================= */
+
+.how-section {
+    padding: 100px 0;
+}
+
+.step-card {
+    position: relative;
+    text-align: center;
+    padding: 40px 25px;
+    border: 1px solid #e9edf3;
+    border-radius: 22px;
+    background: #ffffff;
+}
+
+.step-number {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #dce9f8;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.step-card > i {
+    display: block;
+    color: #3b82f6;
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.step-card h4 {
+    font-weight: 700;
+}
+
+.step-card p {
+    color: #7b8798;
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* =========================================
+   CTA
+========================================= */
+
+.cta-section {
+    padding: 20px 0 90px;
+}
+
+.cta-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 45px 50px;
+    border-radius: 25px;
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+.cta-box span {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    opacity: 0.8;
+}
+
+.cta-box h2 {
+    font-weight: 800;
+    margin: 8px 0;
+}
+
+.cta-box p {
+    margin: 0;
+    opacity: 0.85;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    padding: 65px 0 25px;
+    background: #111827;
+    color: #d1d5db;
+}
+
+.footer-logo {
+    display: inline-block;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.footer-logo i {
+    color: #60a5fa;
+    margin-right: 7px;
+}
+
+.footer p {
+    color: #9ca3af;
+    line-height: 1.7;
+    font-size: 14px;
+    max-width: 480px;
+}
+
+.footer h5 {
+    color: #ffffff;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.footer a:not(.footer-logo) {
+    display: block;
+    color: #9ca3af;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.footer a:not(.footer-logo):hover {
+    color: #60a5fa;
+}
+
+.footer hr {
+    border-color: #374151;
+    margin: 40px 0 20px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-bottom p {
+    margin: 0;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 991px) {
+
+    .hero-section {
+        padding: 65px 0;
+    }
+
+    .hero-visual {
+        margin-top: 50px;
+    }
+
+    .card-one {
+        left: 5%;
+    }
+
+    .card-two {
+        right: 5%;
+    }
+
+    .section-heading h2 {
+        font-size: 34px;
+    }
+
+}
+
+
+@media (max-width: 767px) {
+
+    .hero-section h1 {
+        font-size: 43px;
+    }
+
+    .hero-text {
+        font-size: 16px;
+    }
+
+    .hero-search {
+        min-height: 60px;
+    }
+
+    .hero-search button {
+        padding: 13px 17px;
+    }
+
+    .hero-visual {
+        min-height: 380px;
+    }
+
+    .medicine-circle {
+        width: 230px;
+        height: 230px;
+    }
+
+    .cross-symbol {
+        width: 70px;
+        height: 70px;
+        font-size: 55px;
+        line-height: 65px;
+    }
+
+    .capsule-icon {
+        font-size: 85px;
+    }
+
+    .floating-card {
+        padding: 10px 12px;
+    }
+
+    .card-one {
+        top: 20px;
+    }
+
+    .card-two {
+        top: 135px;
+    }
+
+    .card-three {
+        bottom: 10px;
+    }
+
+    .quick-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .features-section,
+    .how-section {
+        padding: 70px 0;
+    }
+
+    .section-heading {
+        margin-bottom: 35px;
+    }
+
+    .section-heading h2 {
+        font-size: 30px;
+    }
+
+    .cta-box {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 35px 25px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .hero-search {
+        padding: 5px;
+    }
+
+    .search-icon {
+        width: 38px;
+    }
+
+    .hero-search input {
+        font-size: 14px;
+    }
+
+    .hero-search button {
+        padding: 12px 13px;
+        font-size: 13px;
+    }
+
+    .hero-section h1 {
+        font-size: 38px;
+    }
+
+    .floating-card strong {
+        font-size: 11px;
+    }
+
+    .floating-card small {
+        font-size: 9px;
+    }
+
+}
