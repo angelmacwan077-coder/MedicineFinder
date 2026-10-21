@@ -13,7 +13,7 @@ if ($medicine === "") {
 // Search medicines using a prepared statement
 $stmt = $conn->prepare("
     SELECT medicine_id, medicine_name, generic_name,
-           category, description, uses, price, availability
+           category, description, uses, price, availability,image_path
     FROM medicines
     WHERE medicine_name LIKE ?
        OR generic_name LIKE ?
@@ -109,133 +109,160 @@ if ($result->num_rows === 0) {
 }
 ?>
 
-<div class="medicine-results-heading mb-4">
-    <h3>Search Results</h3>
-    <p class="text-muted mb-0">
-        Medicines matching "<?php echo htmlspecialchars($medicine, ENT_QUOTES, "UTF-8"); ?>"
-    </p>
-</div>
 
-<div class="row g-4">
-<?php while ($row = $result->fetch_assoc()): ?>
+?>
 
-    <?php
-    // Get pharmacy information for this medicine
-    $availability_stmt = $conn->prepare("
-        SELECT p.pharmacy_name, p.address, p.city, p.phone,
-               mp.availability
-        FROM medicine_pharmacy mp
-        JOIN pharmacies p
-          ON mp.pharmacy_id = p.pharmacy_id
-        WHERE mp.medicine_id = ?
-    ");
+<div class="mf-results-page">
+    <div class="mf-results-header">
+        <div>
+            <span class="mf-eyebrow">MEDICINEFINDER PHARMACY</span>
+            <h2>Find your medicine</h2>
+            <p>
+                Search results for
+                <strong>"<?php echo htmlspecialchars($medicine, ENT_QUOTES, "UTF-8"); ?>"</strong>
+            </p>
+        </div>
+        <div class="mf-results-count">
+            <i class="bi bi-capsule"></i>
+            <span>Matching medicines</span>
+        </div>
+    </div>
 
-    $availability_stmt->bind_param("i", $row["medicine_id"]);
-    $availability_stmt->execute();
-    $pharmacy_result = $availability_stmt->get_result();
+    <div class="mf-product-list">
 
-    $safe_name = htmlspecialchars($row["medicine_name"] ?? "", ENT_QUOTES, "UTF-8");
-    $safe_generic = htmlspecialchars($row["generic_name"] ?? "", ENT_QUOTES, "UTF-8");
-    $safe_category = htmlspecialchars($row["category"] ?? "", ENT_QUOTES, "UTF-8");
-    $safe_description = htmlspecialchars($row["description"] ?? "", ENT_QUOTES, "UTF-8");
-    $safe_uses = htmlspecialchars($row["uses"] ?? "", ENT_QUOTES, "UTF-8");
-    $safe_availability = htmlspecialchars($row["availability"] ?? "Unknown", ENT_QUOTES, "UTF-8");
+    <?php while ($row = $result->fetch_assoc()): ?>
+        <?php
+        $availability_stmt = $conn->prepare("
+            SELECT p.pharmacy_name, p.address, p.city, p.phone,
+                   mp.availability
+            FROM medicine_pharmacy mp
+            JOIN pharmacies p
+              ON mp.pharmacy_id = p.pharmacy_id
+            WHERE mp.medicine_id = ?
+        ");
 
-    $price = is_numeric($row["price"]) ? (float)$row["price"] : 0;
-    ?>
+        $availability_stmt->bind_param("i", $row["medicine_id"]);
+        $availability_stmt->execute();
+        $pharmacy_result = $availability_stmt->get_result();
 
-    <div class="col-md-6 col-xl-4">
-        <div class="card medicine-result-card h-100 shadow-sm">
-            <div class="card-body d-flex flex-column">
+        $safe_name = htmlspecialchars($row["medicine_name"] ?? "", ENT_QUOTES, "UTF-8");
+        $safe_generic = htmlspecialchars($row["generic_name"] ?? "", ENT_QUOTES, "UTF-8");
+        $safe_category = htmlspecialchars($row["category"] ?? "", ENT_QUOTES, "UTF-8");
+        $safe_description = htmlspecialchars($row["description"] ?? "", ENT_QUOTES, "UTF-8");
+        $safe_uses = htmlspecialchars($row["uses"] ?? "", ENT_QUOTES, "UTF-8");
+        $safe_availability = trim($row["availability"] ?? "Unknown");
 
-                <span class="medicine-category">
+        $price = is_numeric($row["price"]) ? (float)$row["price"] : 0;
+
+        $is_available = strcasecmp($safe_availability, "Available") === 0;
+        ?>
+
+        <article class="mf-product-card">
+
+            <div class="mf-product-visual">
+                <div class="mf-product-placeholder">
+                    <i class="bi bi-capsule-pill"></i>
+                </div>
+                <span class="mf-product-category">
                     <?php echo $safe_category ?: "Medicine"; ?>
                 </span>
+            </div>
 
-                <h4 class="mt-3">
-                    <?php echo $safe_name; ?>
-                </h4>
+            <div class="mf-product-info">
+                <h3><?php echo $safe_name; ?></h3>
 
-                <p class="text-muted mb-2">
-                    Generic: <?php echo $safe_generic ?: "Not specified"; ?>
+                <p class="mf-generic">
+                    Generic name:
+                    <strong><?php echo $safe_generic ?: "Not specified"; ?></strong>
                 </p>
 
-                <p><?php echo $safe_description ?: "No description available."; ?></p>
-
-                <p>
-                    <strong>Common uses:</strong><br>
-                    <?php echo $safe_uses ?: "Not specified"; ?>
+                <p class="mf-description">
+                    <?php echo $safe_description ?: "Medicine details are not available yet."; ?>
                 </p>
 
-                <div class="medicine-price mb-2">
+                <?php if (!empty($safe_uses)): ?>
+                    <p class="mf-uses">
+                        <i class="bi bi-info-circle"></i>
+                        <?php echo $safe_uses; ?>
+                    </p>
+                <?php endif; ?>
+
+                <div class="mf-stock-status">
+                    <span class="mf-status-dot <?php echo $is_available ? 'is-available' : 'is-unavailable'; ?>"></span>
+                    <?php echo $is_available ? "Listed as available" : "Catalogue: " . htmlspecialchars($safe_availability, ENT_QUOTES, "UTF-8"); ?>
+                </div>
+            </div>
+
+            <div class="mf-product-purchase">
+                <span class="mf-price-label">Catalogue price</span>
+                <div class="mf-price">
                     ₹<?php echo number_format($price, 2); ?>
                 </div>
 
-                <p>
-                    <strong>Catalogue status:</strong>
-                    <?php echo $safe_availability; ?>
-                </p>
+                <?php if ($is_available): ?>
+                    <a href="order.php?medicine_id=<?php echo (int)$row["medicine_id"]; ?>"
+                       class="mf-buy-button">
+                        <i class="bi bi-cart3"></i>
+                        Buy Medicine
+                    </a>
+                <?php else: ?>
+                    <button class="mf-buy-button mf-disabled-button" disabled>
+                        Currently unavailable
+                    </button>
+                <?php endif; ?>
+            </div>
 
-                <hr>
-
-                <h5>Pharmacy Availability</h5>
+            <div class="mf-pharmacy-section">
+                <h4>
+                    <i class="bi bi-shop"></i>
+                    Pharmacy availability
+                </h4>
 
                 <?php if ($pharmacy_result->num_rows > 0): ?>
+                    <div class="mf-pharmacy-list">
                     <?php while ($pharmacy = $pharmacy_result->fetch_assoc()): ?>
-
                         <?php
                         $pharmacy_available =
                             strcasecmp(trim($pharmacy["availability"] ?? ""), "Available") === 0;
                         ?>
+                        <div class="mf-pharmacy-item">
+                            <div class="mf-pharmacy-icon">
+                                <i class="bi bi-hospital"></i>
+                            </div>
 
-                        <div class="pharmacy-result-item mb-3">
-                            <strong>
-                                <?php echo htmlspecialchars($pharmacy["pharmacy_name"] ?? "", ENT_QUOTES, "UTF-8"); ?>
-                            </strong>
+                            <div class="mf-pharmacy-details">
+                                <strong>
+                                    <?php echo htmlspecialchars($pharmacy["pharmacy_name"] ?? "", ENT_QUOTES, "UTF-8"); ?>
+                                </strong>
+                                <p>
+                                    <?php echo htmlspecialchars($pharmacy["address"] ?? "", ENT_QUOTES, "UTF-8"); ?>,
+                                    <?php echo htmlspecialchars($pharmacy["city"] ?? "", ENT_QUOTES, "UTF-8"); ?>
+                                </p>
+                                <small>
+                                    Phone:
+                                    <?php echo htmlspecialchars($pharmacy["phone"] ?? "Not listed", ENT_QUOTES, "UTF-8"); ?>
+                                </small>
+                            </div>
 
-                            <p class="small text-muted mb-1">
-                                <?php echo htmlspecialchars($pharmacy["address"] ?? "", ENT_QUOTES, "UTF-8"); ?>,
-                                <?php echo htmlspecialchars($pharmacy["city"] ?? "", ENT_QUOTES, "UTF-8"); ?>
-                            </p>
-
-                            <p class="small mb-2">
-                                Phone:
-                                <?php echo htmlspecialchars($pharmacy["phone"] ?? "Not listed", ENT_QUOTES, "UTF-8"); ?>
-                            </p>
-
-                            <?php if ($pharmacy_available): ?>
-                                <span class="badge bg-success">Listed as available</span>
-                            <?php else: ?>
-                                <span class="badge bg-danger">Listed as out of stock</span>
-                            <?php endif; ?>
+                            <span class="mf-pharmacy-badge <?php echo $pharmacy_available ? 'available' : 'unavailable'; ?>">
+                                <?php echo $pharmacy_available ? "Available" : "Out of stock"; ?>
+                            </span>
                         </div>
-
                     <?php endwhile; ?>
+                    </div>
                 <?php else: ?>
-                    <p class="text-muted">
+                    <p class="mf-no-pharmacy">
                         No pharmacy listings found for this medicine.
                     </p>
                 <?php endif; ?>
-
-                <?php if (strcasecmp(trim($row["availability"] ?? ""), "Available") === 0): ?>
-                    <a
-                        href="order.php?medicine_id=<?php echo (int)$row["medicine_id"]; ?>"
-                        class="btn btn-primary w-100 mt-auto"
-                    >
-                        🛒 Buy Medicine
-                    </a>
-                <?php else: ?>
-                    <div class="alert alert-warning mt-auto mb-0">
-                        This medicine is marked unavailable in the catalogue.
-                    </div>
-                <?php endif; ?>
-
             </div>
-        </div>
-    </div>
 
-    <?php $availability_stmt->close(); ?>
-<?php endwhile; ?>
+        </article>
+
+        <?php $availability_stmt->close(); ?>
+    <?php endwhile; ?>
+
+    </div>
 </div>
 
 <?php

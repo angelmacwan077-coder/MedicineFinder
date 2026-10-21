@@ -7,6 +7,11 @@ require_once "config.php";
 $message = "";
 $messageType = "";
 
+if (isset($_GET["registered"]) && $_GET["registered"] == "1") {
+    $message = "Registration successful! Please login to continue.";
+    $messageType = "success";
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = trim($_POST["email"]);
@@ -20,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
 
         $stmt = $conn->prepare(
-            "SELECT user_id, name, email, password_hash, status
+            "SELECT user_id, name, email, password_hash, status, role
              FROM users
              WHERE email = ?"
         );
@@ -52,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["user_id"] = $user["user_id"];
                 $_SESSION["user_name"] = $user["name"];
                 $_SESSION["user_email"] = $user["email"];
+                $_SESSION["user_role"] = $user["role"];
 
                 header("Location: index.php");
                 exit;

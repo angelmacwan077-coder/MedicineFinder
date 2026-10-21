@@ -12,15 +12,17 @@ session_start();
 
     <title>Medicine Finder | Find Your Medicine Easily</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Our CSS -->
-    <link rel="stylesheet" href="style.css">
+<!-- Your custom CSS -->
+<link rel="stylesheet" href="style.css?v=2">
+
 </head>
 
 <body>
@@ -65,17 +67,7 @@ session_start();
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">
-                            Features
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#how-it-works">
-                            How It Works
-                        </a>
-                    </li>
+                    
 
                     <?php if (isset($_SESSION["user_id"])): ?>
 
@@ -120,142 +112,171 @@ session_start();
 
     <!-- ================= HERO SECTION ================= -->
 
-    <section class="hero-section">
+   
+<!-- ================= NEW PHARMACY HERO ================= -->
+<section class="mf-hero" id="find-medicine">
+    <div class="container">
+        <div class="row align-items-center g-4 mf-hero-main">
 
-        <div class="container">
+            <div class="col-lg-7">
+                <span class="mf-eyebrow">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                    YOUR HEALTH, MADE SIMPLER
+                </span>
 
-            <div class="row align-items-center">
+                <h1>
+                    Your Trusted<br>
+                    <span>Online Pharmacy</span>
+                </h1>
 
-                <!-- Hero Text -->
+                <p class="mf-hero-text">
+                    Find medicines, check listed pharmacy availability,
+                    and get the healthcare essentials you need.
+                </p>
 
-                <div class="col-lg-6">
+                <form class="mf-search" onsubmit="event.preventDefault(); searchMedicine();">
+                    <i class="bi bi-search"></i>
+                    <input
+                        type="text"
+                        id="medicineSearch"
+                        placeholder="Search medicines by name..."
+                        aria-label="Search medicines"
+                    >
+                    <button type="submit">Search</button>
+                </form>
 
-                    <div class="hero-badge">
-                        <i class="bi bi-heart-pulse-fill"></i>
-                        Smart Medicine Assistance
-                    </div>
-
-                    <h1>
-                        Find Your Medicine.
-                        <span>Find It Faster.</span>
-                    </h1>
-
-                    <p class="hero-text">
-                        Search medicines, check pharmacy availability,
-                        compare company options and request medicines
-                        when they are unavailable.
-                    </p>
-
-
-                    <!-- Search Box -->
-
-                    <div class="hero-search" id="find-medicine">
-
-                        <div class="search-icon">
-                            <i class="bi bi-search"></i>
-                        </div>
-
-                        <input type="text"
-                            id="medicineSearch"
-                            placeholder="Search medicine name...">
-
-                        <button onclick="searchMedicine()">
-                            Search
-                        </button>
-
-                    </div>
-
-                    <small class="search-hint">
-                        Example: Paracetamol, Azithromycin, Vitamin C
-                    </small>
-
-
-                    <!-- Quick Actions -->
-
-                    <div class="quick-actions">
-
-                        <a href="pages/prescription.html">
-                            <i class="bi bi-camera"></i>
-                            Scan Prescription
-                        </a>
-
-                        <a href="pages/assistant.html">
-                            <i class="bi bi-robot"></i>
-                            Health Assistant
-                        </a>
-
-                    </div>
-
+                <div class="mf-search-examples">
+                    Try: Paracetamol, Azithromycin, Vitamin C
                 </div>
 
-
-                <!-- Hero Visual -->
-
-                <div class="col-lg-6">
-
-                    <div class="hero-visual">
-
-                        <div class="floating-card card-one">
-
-                            <div class="mini-icon green">
-                                <i class="bi bi-check-lg"></i>
-                            </div>
-
-                            <div>
-                                <strong>Medicine Found</strong>
-                                <small>Available nearby</small>
-                            </div>
-
-                        </div>
-
-
-                        <div class="medicine-circle">
-
-                            <div class="cross-symbol">
-                                +
-                            </div>
-
-                            <i class="bi bi-capsule-pill capsule-icon"></i>
-
-                        </div>
-
-
-                        <div class="floating-card card-two">
-
-                            <div class="mini-icon blue">
-                                <i class="bi bi-shop"></i>
-                            </div>
-
-                            <div>
-                                <strong>Pharmacy</strong>
-                                <small>Stock updated recently</small>
-                            </div>
-
-                        </div>
-
-
-                        <div class="floating-card card-three">
-
-                            <div class="mini-icon purple">
-                                <i class="bi bi-shield-check"></i>
-                            </div>
-
-                            <div>
-                                <strong>Smart Assistance</strong>
-                                <small>Simple & helpful</small>
-                            </div>
-
-                        </div>
-
-                    </div>
-
+                <div class="mf-hero-actions">
+                    <a href="pages/prescription.html" class="mf-prescription-btn">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        Upload Prescription
+                    </a>
+                    <a href="#popular-categories" class="mf-browse-link">
+                        Browse categories <i class="bi bi-arrow-down"></i>
+                    </a>
                 </div>
 
+                <div class="mf-trust-points">
+                    <span><i class="bi bi-search"></i> Easy medicine search</span>
+                    <span><i class="bi bi-shop"></i> Pharmacy information</span>
+                    <span><i class="bi bi-shield-check"></i> Health-focused support</span>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="mf-hero-art">
+                    <div class="mf-art-circle"></div>
+                    <div class="mf-art-leaf leaf-one"></div>
+                    <div class="mf-art-leaf leaf-two"></div>
+
+                    <div class="mf-medicine-bottle bottle-one">
+                        <i class="bi bi-capsule-pill"></i>
+                        <span>CARE</span>
+                    </div>
+
+                    <div class="mf-medicine-bottle bottle-two">
+                        <i class="bi bi-heart-pulse"></i>
+                        <span>WELLNESS</span>
+                    </div>
+
+                    <div class="mf-art-pill pill-one"></div>
+                    <div class="mf-art-pill pill-two"></div>
+
+                    <div class="mf-art-note">
+                        <span class="mf-note-icon">
+                            <i class="bi bi-check2-circle"></i>
+                        </span>
+                        <span>
+                            <strong>Find your medicine</strong>
+                            <small>Explore listed availability</small>
+                        </span>
+                    </div>
+                </div>
             </div>
 
         </div>
 
-    </section>
+        <!-- Keep search results outside the two hero columns -->
+        <div id="searchResults" class="search-results mt-4"></div>
+    </div>
+</section>
+
+<!-- ================= POPULAR CATEGORIES ================= -->
+<section class="mf-categories" id="popular-categories">
+    <div class="container">
+        <div class="mf-section-heading">
+            <div>
+                <span class="mf-section-label">EXPLORE MEDICINES</span>
+                <h2>Browse popular categories</h2>
+                <p>Start with a category or search for a specific medicine.</p>
+            </div>
+        </div>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+
+            <div class="col">
+                <button type="button" class="mf-category-card"
+                    onclick="mfChooseCategory('Paracetamol')">
+                    <span class="mf-category-icon category-blue">
+                        <i class="bi bi-thermometer-half"></i>
+                    </span>
+                    <strong>Pain & Fever</strong>
+                    <small>Find medicines</small>
+                </button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="mf-category-card"
+                    onclick="mfChooseCategory('Vitamin C')">
+                    <span class="mf-category-icon category-green">
+                        <i class="bi bi-apple"></i>
+                    </span>
+                    <strong>Vitamins</strong>
+                    <small>Explore supplements</small>
+                </button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="mf-category-card"
+                    onclick="mfChooseCategory('Azithromycin')">
+                    <span class="mf-category-icon category-purple">
+                        <i class="bi bi-capsule"></i>
+                    </span>
+                    <strong>Prescription medicines</strong>
+                    <small>Check medicine details</small>
+                </button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="mf-category-card"
+                    onclick="mfChooseCategory('')">
+                    <span class="mf-category-icon category-orange">
+                        <i class="bi bi-basket2"></i>
+                    </span>
+                    <strong>All medicines</strong>
+                    <small>Search the catalogue</small>
+                </button>
+            </div>
+
+            <div class="col">
+                <a href="pages/prescription.html" class="mf-category-card">
+                    <span class="mf-category-icon category-pink">
+                        <i class="bi bi-file-earmark-medical"></i>
+                    </span>
+                    <strong>Prescription help</strong>
+                    <small>Upload a prescription</small>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+                   
 
 
     <!-- ================= QUICK FEATURES ================= -->
@@ -335,295 +356,7 @@ session_start();
     </section>
 
 
-    <!-- ================= FEATURES ================= -->
-
-    <section class="features-section" id="features">
-
-        <div class="container">
-
-            <div class="section-heading">
-
-                <span>OUR FEATURES</span>
-
-                <h2>
-                    More Than Just A
-                    <strong>Medicine Search</strong>
-                </h2>
-
-                <p>
-                    Everything you need to find medicines and
-                    get useful assistance in one place.
-                </p>
-
-            </div>
-
-
-            <div class="row g-4">
-
-
-                <!-- Feature 1 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-search-heart"></i>
-                        </div>
-
-                        <h4>Smart Medicine Finder</h4>
-
-                        <p>
-                            Search medicines by name or keyword
-                            and find pharmacies where stock is
-                            currently recorded.
-                        </p>
-
-                        <a href="#find-medicine">
-                            Find Medicine
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Feature 2 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-shop-window"></i>
-                        </div>
-
-                        <h4>Pharmacy Availability</h4>
-
-                        <p>
-                            View pharmacy information, medicine
-                            quantity, availability status and
-                            latest stock update.
-                        </p>
-
-                        <a href="#find-medicine">
-                            Check Availability
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Feature 3 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-layers"></i>
-                        </div>
-
-                        <h4>Company Alternatives</h4>
-
-                        <p>
-                            Compare different company or brand
-                            entries associated with the same
-                            medicine or generic composition.
-                        </p>
-
-                        <a href="#find-medicine">
-                            Compare Options
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Feature 4 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-file-earmark-medical"></i>
-                        </div>
-
-                        <h4>Prescription Assistant</h4>
-
-                        <p>
-                            Upload a supported prescription and
-                            get medicine-related information
-                            for review and searching.
-                        </p>
-
-                        <a href="pages/prescription.html">
-                            Upload Prescription
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Feature 5 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="feature-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-robot"></i>
-                        </div>
-
-                        <h4>AI Symptom Assistant</h4>
-
-                        <p>
-                            Get general informational guidance
-                            and next-step assistance based on
-                            symptoms you describe.
-                        </p>
-
-                        <a href="pages/assistant.html">
-                            Ask Assistant
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Feature 6 -->
-
-                <div class="col-md-6 col-lg-4">
-
-                    <div class="feature-card emergency-card">
-
-                        <div class="feature-icon">
-                            <i class="bi bi-heart-pulse"></i>
-                        </div>
-
-                        <h4>Emergency Help</h4>
-
-                        <p>
-                            Quickly access available doctor and
-                            hospital contact information when
-                            urgent assistance is needed.
-                        </p>
-
-                        <a href="pages/emergency.html">
-                            Get Help
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= HOW IT WORKS ================= -->
-
-    <section class="how-section" id="how-it-works">
-
-        <div class="container">
-
-            <div class="section-heading">
-
-                <span>SIMPLE PROCESS</span>
-
-                <h2>
-                    How <strong>Medicine Finder</strong> Works
-                </h2>
-
-            </div>
-
-
-            <div class="row g-4">
-
-                <div class="col-md-4">
-
-                    <div class="step-card">
-
-                        <div class="step-number">
-                            01
-                        </div>
-
-                        <i class="bi bi-search"></i>
-
-                        <h4>Search</h4>
-
-                        <p>
-                            Enter the name of the medicine
-                            you are looking for.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-4">
-
-                    <div class="step-card">
-
-                        <div class="step-number">
-                            02
-                        </div>
-
-                        <i class="bi bi-shop"></i>
-
-                        <h4>Check</h4>
-
-                        <p>
-                            View pharmacies, quantity,
-                            availability and company options.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-4">
-
-                    <div class="step-card">
-
-                        <div class="step-number">
-                            03
-                        </div>
-
-                        <i class="bi bi-check-circle"></i>
-
-                        <h4>Get Assistance</h4>
-
-                        <p>
-                            Request unavailable medicines or
-                            use our assistance features.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
+    
 
 
     <!-- ================= CTA ================= -->
@@ -761,7 +494,7 @@ session_start();
 
     <!-- Our JS -->
 
-    <script src="js/script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 

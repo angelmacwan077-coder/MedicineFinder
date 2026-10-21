@@ -13,9 +13,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
     $confirmPassword = $_POST["confirm_password"];
+    $role = $_POST["role"];
+
+    // Only these two roles can register publicly
+    if ($role !== "customer" && $role !== "pharmacy_owner") {
+        $role = "";
+    }
 
     // Check empty fields
-    if (empty($name) || empty($email) || empty($password) || empty($confirmPassword)) {
+    if (
+        empty($name) ||
+        empty($email) ||
+        empty($password) ||
+        empty($confirmPassword) ||
+        empty($role)
+    ) {
 
         $message = "Please fill all fields.";
         $messageType = "danger";
@@ -72,24 +84,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 PASSWORD_DEFAULT
             );
 
-            // Insert user
+            // Insert user with selected role
             $stmt = $conn->prepare(
                 "INSERT INTO users
-                (name, email, password_hash)
-                VALUES (?, ?, ?)"
+                (name, email, password_hash, role)
+                VALUES (?, ?, ?, ?)"
             );
 
             $stmt->bind_param(
-                "sss",
+                "ssss",
                 $name,
                 $email,
-                $passwordHash
+                $passwordHash,
+                $role
             );
 
             if ($stmt->execute()) {
 
-                $message = "Registration successful! You can now login.";
-                $messageType = "success";
+                // Redirect to login after successful registration
+                header(
+                    "Location: login.php?registered=1"
+                );
+
+                exit;
 
             } else {
 
@@ -115,9 +132,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
 
     <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Create Account | Medicine Finder</title>
+    <title>Create Account | MedicineFinder</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -144,12 +161,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px 15px;
+            padding: 35px 15px;
         }
 
         .register-card {
             width: 100%;
-            max-width: 500px;
+            max-width: 560px;
             background: #ffffff;
             padding: 40px;
             border-radius: 25px;
@@ -158,19 +175,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .logo {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
 
         .logo-icon {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             background: #eaf3ff;
             color: #3b82f6;
-            border-radius: 15px;
-            font-size: 25px;
+            border-radius: 16px;
+            font-size: 27px;
             margin-bottom: 10px;
         }
 
@@ -200,6 +217,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .form-control:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.12);
+        }
+
+        .role-title {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .role-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.role-card {
+    position: relative;
+    z-index: 2;
+    display: block;
+    cursor: pointer;
+}
+
+        .role-card {
+            display: block;
+            padding: 20px 15px;
+            text-align: center;
+            border: 2px solid #e4e7ec;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            height: 100%;
+        }
+
+        .role-card:hover {
+            border-color: #93c5fd;
+            background: #f8fbff;
+        }
+
+        .role-option input:checked + .role-card {
+            border-color: #3b82f6;
+            background: #eef6ff;
+        }
+
+        .role-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: #eaf3ff;
+            color: #3b82f6;
+            font-size: 23px;
+        }
+
+        .role-card strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .role-card small {
+            color: #7b8798;
+            line-height: 1.4;
         }
 
         .btn-register {
@@ -237,6 +328,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 14px;
         }
 
+        @media (max-width: 500px) {
+
+            .register-card {
+                padding: 28px 20px;
+            }
+
+            .role-options {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
     </style>
 
 </head>
@@ -257,7 +360,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Medicine<span>Finder</span>
             </h2>
 
-            <p>Create your account</p>
+            <p>Create your account to get started</p>
 
         </div>
 
@@ -272,6 +375,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         <form method="POST" action="register.php">
+
+
+            <!-- ACCOUNT TYPE -->
+
+            <div class="role-title">
+                I want to register as
+            </div>
+
+            <div class="role-options">
+
+                <div class="role-option">
+
+                    <input
+                        type="radio"
+                        id="customer"
+                        name="role"
+                        value="customer"
+                        required>
+
+                    <label
+                        for="customer"
+                        class="role-card">
+
+                        <div class="role-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+
+                        <strong>Customer</strong>
+
+                        <small>
+                            Browse medicines, add to cart
+                            and place orders.
+                        </small>
+
+                    </label>
+
+                </div>
+
+
+                <div class="role-option">
+
+                    <input
+                        type="radio"
+                        id="pharmacy_owner"
+                        name="role"
+                        value="pharmacy_owner"
+                        required>
+
+                    <label
+                        for="pharmacy_owner"
+                        class="role-card">
+
+                        <div class="role-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+
+                        <strong>Pharmacy Owner</strong>
+
+                        <small>
+                            Manage your pharmacy,
+                            medicines and orders.
+                        </small>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- NAME -->
 
             <div class="mb-3">
 
@@ -289,6 +463,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
 
+            <!-- EMAIL -->
+
             <div class="mb-3">
 
                 <label class="form-label">
@@ -304,6 +480,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             </div>
 
+
+            <!-- PASSWORD -->
 
             <div class="mb-3">
 
@@ -321,6 +499,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
 
+            <!-- CONFIRM PASSWORD -->
+
             <div class="mb-4">
 
                 <label class="form-label">
@@ -337,7 +517,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
 
-            <button type="submit" class="btn-register">
+            <button
+                type="submit"
+                class="btn-register">
 
                 <i class="bi bi-person-plus me-2"></i>
 
@@ -359,7 +541,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
 
-        <a href="index.php" class="home-link">
+        <a
+            href="index.php"
+            class="home-link">
 
             <i class="bi bi-arrow-left"></i>
             Back to Home
